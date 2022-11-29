@@ -1,0 +1,7 @@
+# Jetbrains
+.idea/
+[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Dependency directories
+node_modules/
+dist/
