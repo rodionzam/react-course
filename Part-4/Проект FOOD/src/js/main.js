@@ -218,6 +218,10 @@ window.addEventListener('DOMContentLoaded', () => {
         14,
         ".menu .container",
     ).render();
+
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
     //#endregion Menu card
 
     //#region Forms

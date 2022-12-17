@@ -20,6 +20,11 @@ gulp.task("copy-php", () => {
         .pipe(browsersync.stream());
 });
 
+gulp.task("copy-ico", () => {
+    return gulp.src("./src/favicon.ico")
+        .pipe(gulp.dest(dist));
+});
+
 gulp.task("build-js", () => {
     return gulp.src("./src/js/main.js")
         .pipe(webpack({
@@ -83,7 +88,7 @@ gulp.task("watch", () => {
     gulp.watch("./src/js/**/*.js", gulp.parallel("build-js"));
 });
 
-gulp.task("build", gulp.parallel("copy-html", "copy-php", "copy-assets", "build-sass", "build-js"));
+gulp.task("build", gulp.parallel("copy-html", "copy-php", "copy-ico", "copy-assets", "build-sass", "build-js"));
 
 gulp.task("prod", () => {
     gulp.src("./src/index.html")
