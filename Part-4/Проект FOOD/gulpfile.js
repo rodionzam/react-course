@@ -44,8 +44,8 @@ gulp.task("build-js", () => {
                             options: {
                                 presets: [['@babel/preset-env', {
                                     debug: true,
-                                    corejs: 3.22,
-                                    useBuiltIns: "entry"
+                                    corejs: 3,
+                                    useBuiltIns: "usage"
                                 }]]
                             }
                         }
@@ -113,9 +113,9 @@ gulp.task("prod", () => {
                             loader: 'babel-loader',
                             options: {
                                 presets: [['@babel/preset-env', {
-                                    debug: false,
-                                    corejs: 3.22,
-                                    useBuiltIns: "entry"
+                                    debug: true,
+                                    corejs: 3,
+                                    useBuiltIns: "usage"
                                 }]]
                             }
                         }
