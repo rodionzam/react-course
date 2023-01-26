@@ -1,4 +1,4 @@
-import './app-filter.css';
+import "./app-filter.css";
 
 const AppFilter = () => {
     return (
@@ -7,7 +7,7 @@ const AppFilter = () => {
             <button className="btn btn-outline-light" type="button">На повышение</button>
             <button className="btn btn-outline-light" type="button">ЗП больше 1000$</button>
         </div>
-    );
+    )
 }
 
 export default AppFilter;
