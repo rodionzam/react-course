@@ -11,14 +11,23 @@ class CharList extends Component {
     }
 
     state = {
-        char: {},
+        charList: [],
         loading: true,
         error: false
     }
 
-    onCharLoaded = (char) => {
+    marvelService = new MarvelService();
+
+    componentDidMount() {
+        this.marvelService
+            .getAllCharacters()
+            .then(this.onCharListLoaded)
+            .catch(this.onError)
+    }
+
+    onCharListLoaded = (charList) => {
         this.setState({
-            char,
+            charList,
             loading: false
         })
     }
@@ -30,24 +39,37 @@ class CharList extends Component {
         })
     }
 
-    marvelService = new MarvelService();
+    renderItems(arr) {
+        const items =  arr.map((item) => {
+            let imgStyle = {'objectFit' : 'cover'};
 
-    componentDidMount() {
-        this.updateChar();
-    }
+            if (item.thumbnail.includes('image_not_available')) {
+                imgStyle = {'objectFit' : 'unset'};
+            }
 
-    updateChar = () => {
-        this.marvelService
-            .getAllCharacters()
-            .then(this.onCharLoaded)
-            .catch(this.onError)
+            return (
+                <li className="char__item" key={item.id}>
+                    <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
+                    <div className="char__name">{item.name}</div>
+                </li>
+            )
+        });
+
+        return (
+            <ul className="char__grid">
+                {items}
+            </ul>
+        )
     }
 
     render() {
-        const {char, loading, error} = this.state;
+        const {charList, loading, error} = this.state;
+
+        const items = this.renderItems(charList);
+
         const errorMessage = error ? <ErrorMessage/> : null;
         const spinner = loading ? <Spinner/> : null;
-        const content = !(loading || error) ? <View char={char}/> : null;
+        const content = !(loading || error) ? items : null;
 
         return (
             <div className="char__list">
@@ -60,34 +82,6 @@ class CharList extends Component {
             </div>
         )
     }
-}
-
-const View = ({char}) => {
-    const elements = char.map(item => {
-        const {id, name, thumbnail} = item;
-        return (
-            <CharItem key={id} nameChar={name} thumbnail={thumbnail}/>
-        )
-    });
-
-    return (
-        <ul className="char__grid">
-            {elements}
-        </ul>
-    )
-}
-
-const CharItem = (props) => {
-    const {nameChar, thumbnail} = props;
-
-    const notImg = thumbnail.includes('image_not_available');
-
-    return (
-        <li className="char__item">
-            <img src={thumbnail} style={notImg ? {objectFit: 'contain'} : {objectFit: 'cover'}} alt={nameChar}/>
-            <div className="char__name">{nameChar}</div>
-        </li>
-    )
 }
 
 export default CharList;
